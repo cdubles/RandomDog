@@ -2,12 +2,19 @@
 function newDog(){
   $.getJSON("https://api.thedogapi.com/v1/images/search", function(data,status){
     //put data from API call into variables
+    try{
     img = data[0]['url'];
     name = data[0]["breeds"][0]["name"];
     life = data[0]["breeds"][0]["life_span"];
     temp = data[0]["breeds"][0]["temperament"];
     weight = data[0]["breeds"][0]["weight"]["imperial"]
     height = data[0]["breeds"][0]["height"]["imperial"]
+  }
+
+  catch (e){ // ran if JSON object does not have all the info we want
+    console.log("unfinshed JSON object, requesting another");
+    newDog();
+  }
     // put data in html document
     $("#name").text("type: "+name);
     $("#life").text("life expextancy: "+life);
